@@ -19,10 +19,8 @@ images:
   newTag: latest
 
 commonLabels:
-  app.kubernetes.io/name: mbti-personality-test
-  app.kubernetes.io/instance: production
-  app.kubernetes.io/version: "1.0.0"
-  app.kubernetes.io/component: frontend
-  app.kubernetes.io/part-of: mbti-system
+  app: lovetest-mbti
+  managed-by: argocd
+
 
 namespace: mbti-test

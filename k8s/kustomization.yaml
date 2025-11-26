@@ -18,7 +18,7 @@ resources:
 
 images:
 - name: omaticaya/lovetest-mbti
-  newTag: 1.0.3
+  newTag: 1.0.4
 
 commonLabels:
   app: mbti-personality-test

@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: mbti-test
-        image: omaticaya/lovetest-mbti:1.0.3
+        image: omaticaya/lovetest-mbti:1.0.4
         imagePullPolicy: Always
         ports:
         - containerPort: 80

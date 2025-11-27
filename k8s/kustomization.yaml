@@ -1,11 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: lovetest-mbti
+namespace: lovetest-zhanyouyu-ns
 
 metadata:
-  name: mbti-personality-test
-  namespace: lovetest-mbti
+  name: lovetest-zhanyouyu
+  namespace: lovetest-zhanyouyu-ns
 
 resources:
 - namespace.yaml
@@ -17,10 +17,11 @@ resources:
 - hpa.yaml
 
 images:
-- name: omaticaya/lovetest-mbti
-  newTag: 1.0.4
+- name: omaticaya/lovetest-zhanyouyu
+  newTag: 1.0.1
 
 commonLabels:
-  app: mbti-personality-test
+  app: lovetest-zhanyouyu
   managed-by: argocd
+
 

@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mbti-personality-test
-  namespace: lovetest-mbti
+  name: lovetest-zhanyouyu
+  namespace: lovetest-zhanyouyu-ns
   labels:
-    app: mbti-personality-test
+    app: lovetest-zhanyouyu
     version: v1
 spec:
   replicas: 1
@@ -15,16 +15,16 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: mbti-personality-test
+      app: lovetest-zhanyouyu
   template:
     metadata:
       labels:
-        app: mbti-personality-test
+        app: lovetest-zhanyouyu
         version: v1
     spec:
       containers:
-      - name: mbti-test
-        image: omaticaya/lovetest-mbti:1.0.4
+      - name: lovetest-zhanyouyu
+        image: omaticaya/lovetest-zhanyouyu:1.0.1
         imagePullPolicy: Always
         ports:
         - containerPort: 80
@@ -58,6 +58,6 @@ spec:
         - name: VITE_API_BASE_URL
           valueFrom:
             configMapKeyRef:
-              name: mbti-personality-test-config
+              name: lovetest-zhanyouyu-config
               key: API_BASE_URL
       restartPolicy: Always

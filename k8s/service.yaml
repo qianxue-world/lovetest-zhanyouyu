@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mbti-personality-test-service
-  namespace: lovetest-mbti
+  name: lovetest-zhanyouyu-service
+  namespace: lovetest-zhanyouyu-ns
   labels:
-    app: mbti-personality-test
+    app: lovetest-zhanyouyu
 spec:
   type: ClusterIP
   ports:
@@ -13,4 +13,4 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: mbti-personality-test
+    app: lovetest-zhanyouyu

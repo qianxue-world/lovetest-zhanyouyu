@@ -5,29 +5,13 @@ export interface Question {
 
 export interface Option {
   text: string;
-  trait: Trait;
+  score: number; // 0-3分，代表占有欲程度
 }
 
-export type Trait = 'E' | 'I' | 'N' | 'S' | 'T' | 'F' | 'J' | 'P';
-
-export type PersonalityType = 
-  | 'ESTJ' | 'ESTP' | 'ESFJ' | 'ESFP'
-  | 'ENTJ' | 'ENTP' | 'ENFJ' | 'ENFP'
-  | 'ISTJ' | 'ISTP' | 'ISFJ' | 'ISFP'
-  | 'INTJ' | 'INTP' | 'INFJ' | 'INFP';
-
-export interface PersonalityInfo {
-  name: string;
-  description: string;
-}
-
-export interface Answers {
-  E: number;
-  I: number;
-  N: number;
-  S: number;
-  T: number;
-  F: number;
-  J: number;
-  P: number;
+export interface TestResult {
+  score: number; // 0-100分
+  level: string; // 占有欲等级
+  title: string; // 结果标题
+  description: string; // 详细描述
+  advice: string; // 建议
 }

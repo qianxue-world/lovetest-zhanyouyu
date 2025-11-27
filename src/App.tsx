@@ -6,7 +6,7 @@ import { PaymentModal } from './components/PaymentModal';
 import { PaymentMethodModal } from './components/PaymentMethodModal';
 import { ActivationError } from './components/ActivationError';
 import { ActivationService } from './services/activationService';
-import { Answers, PersonalityType, Trait } from './types';
+import { TestResult } from './types';
 import './App.css';
 
 type Screen = 'start' | 'question' | 'result';
@@ -14,10 +14,8 @@ type Screen = 'start' | 'question' | 'result';
 function App() {
   const [screen, setScreen] = useState<Screen>('start');
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<Answers>({
-    E: 0, I: 0, N: 0, S: 0, T: 0, F: 0, J: 0, P: 0
-  });
-  const [personalityType, setPersonalityType] = useState<PersonalityType>('INFP');
+  const [totalScore, setTotalScore] = useState(0);
+  const [testResult, setTestResult] = useState<TestResult | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showMethodModal, setShowMethodModal] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<{ plan: 'basic' | 'professional' | 'premium'; price: string } | null>(null);
@@ -28,59 +26,47 @@ function App() {
   const [activationCode, setActivationCode] = useState<string | null>(null);
   const [isValidating, setIsValidating] = useState<boolean>(true);
 
-  const totalQuestions = 60;
+  const totalQuestions = 30;
 
   // 检查是否为测试模式
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const isTestMode = urlParams.get('test') === 'true';
-    const testType = urlParams.get('type') as PersonalityType;
+    const scoreParam = urlParams.get('score');
 
     // 安全检查：只在localhost环境下允许测试模式
     const isLocalhost = window.location.hostname === 'localhost' || 
                        window.location.hostname === '127.0.0.1' ||
                        window.location.hostname === '';
 
-    if (isTestMode && testType && isLocalhost) {
+    if (isTestMode && isLocalhost) {
       // 测试模式：直接跳转到结果页
-      console.log('🧪 测试模式激活:', testType);
-      setPersonalityType(testType);
+      let mockScore;
+      
+      if (scoreParam !== null) {
+        // 如果URL中指定了分数，使用指定的分数
+        mockScore = parseInt(scoreParam, 10);
+        // 确保分数在0-100范围内
+        if (isNaN(mockScore) || mockScore < 0 || mockScore > 100) {
+          mockScore = Math.floor(Math.random() * 101);
+        }
+      } else {
+        // 否则随机生成
+        mockScore = Math.floor(Math.random() * 101);
+      }
+      
+      console.log('🧪 测试模式激活，分数:', mockScore);
+      setTotalScore(mockScore);
+      setTestResult(calculateResult(mockScore));
       setScreen('result');
       setIsActivated(true);
       setIsValidating(false);
-      
-      // 生成模拟答案数据
-      const mockAnswers = generateMockAnswers(testType);
-      setAnswers(mockAnswers);
       return;
     }
 
     // 正常模式：验证激活码
     validateActivation();
   }, []);
-
-  // 生成模拟答案数据
-  const generateMockAnswers = (type: PersonalityType): Answers => {
-    const traits = type.split('');
-    const answers: Answers = {
-      E: 0, I: 0, N: 0, S: 0, T: 0, F: 0, J: 0, P: 0
-    };
-
-    // 为每个维度生成合理的分数（总和为15）
-    answers[traits[0] as 'E' | 'I'] = Math.floor(Math.random() * 5) + 8; // 8-12
-    answers[traits[0] === 'E' ? 'I' : 'E'] = 15 - answers[traits[0] as 'E' | 'I'];
-
-    answers[traits[1] as 'N' | 'S'] = Math.floor(Math.random() * 5) + 8;
-    answers[traits[1] === 'N' ? 'S' : 'N'] = 15 - answers[traits[1] as 'N' | 'S'];
-
-    answers[traits[2] as 'T' | 'F'] = Math.floor(Math.random() * 5) + 8;
-    answers[traits[2] === 'T' ? 'F' : 'T'] = 15 - answers[traits[2] as 'T' | 'F'];
-
-    answers[traits[3] as 'J' | 'P'] = Math.floor(Math.random() * 5) + 8;
-    answers[traits[3] === 'J' ? 'P' : 'J'] = 15 - answers[traits[3] as 'J' | 'P'];
-
-    return answers;
-  };
 
   const validateActivation = async () => {
     setIsValidating(true);
@@ -142,18 +128,62 @@ function App() {
     setScreen('question');
   };
 
-  const handleAnswer = (trait: Trait) => {
-    const newAnswers = { ...answers, [trait]: answers[trait] + 1 };
-    setAnswers(newAnswers);
+  const handleAnswer = (score: number) => {
+    const newScore = totalScore + score;
+    setTotalScore(newScore);
 
     if (currentQuestion < totalQuestions - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      const type = calculatePersonalityType(newAnswers);
-      setPersonalityType(type);
-      // 直接显示结果，跳过付费页面
+      // 计算最终分数（0-100）
+      const finalScore = Math.round((newScore / 90) * 100); // 30题 * 3分 = 90分满分
+      const result = calculateResult(finalScore);
+      setTestResult(result);
       setScreen('result');
-      // setShowPaymentModal(true); // 暂时隐藏付费功能
+    }
+  };
+
+  const calculateResult = (score: number): TestResult => {
+    if (score <= 20) {
+      return {
+        score,
+        level: "佛系恋爱",
+        title: "自由飞翔的小鸟 🕊️",
+        description: "你对另一半的占有欲非常低，给予对方充分的自由和信任。你相信真正的爱是互相尊重和独立，不会过多干涉对方的生活。你们的关系就像两只自由的鸟儿，各自飞翔却心意相通。",
+        advice: "保持这份信任很好，但也要注意适当的关心和陪伴。偶尔表达你的在乎，会让对方感受到你的爱意哦～"
+      };
+    } else if (score <= 40) {
+      return {
+        score,
+        level: "理性恋爱",
+        title: "温柔的守护者 🌸",
+        description: "你的占有欲处于健康水平，既给对方空间，也会适当表达关心。你懂得平衡独立与亲密，尊重对方的社交圈，同时也会在重要时刻陪伴左右。这是一种成熟而理性的爱。",
+        advice: "你做得很好！继续保持这种平衡感，在信任和关心之间找到最舒适的相处模式。"
+      };
+    } else if (score <= 60) {
+      return {
+        score,
+        level: "甜蜜占有",
+        title: "粘人的小猫咪 🐱",
+        description: "你对另一半有一定的占有欲，希望能更多地参与Ta的生活。你喜欢和Ta分享一切，也希望Ta能多陪伴你。这种占有欲源于你对这段感情的重视，但要注意不要让对方感到压力。",
+        advice: "适当给对方一些私人空间，信任是感情的基础。试着培养自己的兴趣爱好，让彼此都有成长的空间。"
+      };
+    } else if (score <= 80) {
+      return {
+        score,
+        level: "强烈占有",
+        title: "热情的火焰 🔥",
+        description: "你的占有欲比较强，希望时刻了解对方的动态，不太能接受Ta和异性的过多接触。你对这段感情投入很深，但这种强烈的占有可能会让对方感到束缚。",
+        advice: "试着放松一些，给彼此更多信任和空间。过度的控制可能会适得其反，学会欣赏对方的独立性，感情会更加稳固。"
+      };
+    } else {
+      return {
+        score,
+        level: "极度占有",
+        title: "炽热的太阳 ☀️",
+        description: "你的占有欲非常强烈，希望完全掌控这段关系。你可能会频繁查看对方的行踪，不希望Ta有太多自己的社交空间。这种强烈的占有欲可能源于不安全感或对感情的极度重视。",
+        advice: "建议你审视一下自己的内心，是否有一些不安全感需要处理。健康的感情需要互相信任和尊重，试着给对方更多自由，也给自己更多自信。必要时可以寻求心理咨询的帮助。"
+      };
     }
   };
 
@@ -303,14 +333,7 @@ function App() {
     // 不关闭套餐选择弹窗，让用户可以重新选择
   };
 
-  const calculatePersonalityType = (ans: Answers): PersonalityType => {
-    let type = '';
-    type += ans.E > ans.I ? 'E' : 'I';
-    type += ans.N > ans.S ? 'N' : 'S';
-    type += ans.T > ans.F ? 'T' : 'F';
-    type += ans.J > ans.P ? 'J' : 'P';
-    return type as PersonalityType;
-  };
+
 
   // Dynamic color themes for each question - Red to Purple spectrum
   const colorThemes = [
@@ -370,10 +393,9 @@ function App() {
             onAnswer={handleAnswer}
           />
         )}
-        {screen === 'result' && (
+        {screen === 'result' && testResult && (
           <ResultScreen
-            personalityType={personalityType}
-            answers={answers}
+            result={testResult}
           />
         )}
         <div className="card-watermark">@潜学天下</div>

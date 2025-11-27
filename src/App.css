@@ -11,7 +11,7 @@ body {
 }
 
 .app {
-  background: linear-gradient(135deg, #FFD93D 0%, #FF6B9D 50%, #C8A2FF 100%);
+  background: linear-gradient(135deg, #FFE5EC 0%, #FFC2D4 50%, #FFB3C6 100%);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -25,26 +25,27 @@ body {
   text-align: center;
   margin-top: 30px;
   padding-top: 20px;
-  border-top: 2px solid #f0f0f0;
+  border-top: 2px solid #FFE5EC;
   font-size: 14px;
   font-weight: 600;
-  background: linear-gradient(135deg, #FF6B9D 0%, #C8A2FF 100%);
+  background: linear-gradient(135deg, #FF9EBB 0%, #FFB3C6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .container {
   max-width: 700px;
   width: 100%;
   background: white;
-  border-radius: 25px;
+  border-radius: 30px;
   padding: 40px;
-  box-shadow: 0 20px 60px rgba(255, 107, 157, 0.3);
+  box-shadow: 0 20px 60px rgba(255, 182, 193, 0.4);
   animation: fadeIn 0.5s;
   position: relative;
   z-index: 2;
+  border: 3px solid #FFE5EC;
 }
 
 @keyframes fadeIn {

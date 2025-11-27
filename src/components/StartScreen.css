@@ -1,40 +1,58 @@
 .start-screen {
   text-align: center;
+  animation: fadeIn 0.6s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title-section {
+  margin-bottom: 30px;
 }
 
 .start-screen h1 {
-  background: linear-gradient(135deg, #FF6B9D 0%, #FFD93D 100%);
+  background: linear-gradient(135deg, #FF9EBB 0%, #FFB3C6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-size: 2.5em;
-  margin-bottom: 30px;
-  font-weight: bold;
-}
-
-.intro-section {
-  margin-bottom: 30px;
-  padding: 20px;
-  background: linear-gradient(135deg, #FFF9E6 0%, #FFE5F1 100%);
-  border-radius: 15px;
-  border: 2px solid #FFD93D;
-}
-
-.intro-section h2 {
-  background: linear-gradient(135deg, #FF6B9D 0%, #C8A2FF 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  font-size: 1.5em;
   margin-bottom: 15px;
   font-weight: bold;
 }
 
+.subtitle {
+  color: #FF85A1;
+  font-size: 1.2em;
+  margin: 0;
+  font-weight: 500;
+}
+
+.intro-section {
+  margin-bottom: 30px;
+  padding: 25px;
+  background: linear-gradient(135deg, #FFF5F7 0%, #FFE5EC 100%);
+  border-radius: 20px;
+  border: 3px solid #FFC2D4;
+}
+
+.intro-icon {
+  font-size: 3em;
+  margin-bottom: 15px;
+}
+
 .intro-text {
   color: #666;
-  font-size: 1em;
-  line-height: 1.6;
-  text-align: left;
+  font-size: 1.05em;
+  line-height: 1.8;
+  margin: 0;
 }
 
 .features-grid {
@@ -47,15 +65,15 @@
 .feature-card {
   padding: 20px;
   background: white;
-  border: 2px solid #FFE5F1;
-  border-radius: 15px;
+  border: 3px solid #FFE5EC;
+  border-radius: 20px;
   transition: all 0.3s;
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 20px rgba(255, 107, 157, 0.2);
-  border-color: #FF6B9D;
+  box-shadow: 0 8px 25px rgba(255, 158, 187, 0.3);
+  border-color: #FFB3C6;
 }
 
 .feature-icon {
@@ -64,7 +82,7 @@
 }
 
 .feature-card h3 {
-  background: linear-gradient(135deg, #FF6B9D 0%, #C8A2FF 100%);
+  background: linear-gradient(135deg, #FF9EBB 0%, #FFB3C6 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -77,58 +95,46 @@
   color: #888;
   font-size: 0.9em;
   line-height: 1.4;
+  margin: 0;
 }
 
-.original-badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
+.test-info {
+  background: linear-gradient(135deg, #FFF5F7 0%, #FFE5EC 100%);
+  border: 3px solid #FFC2D4;
+  border-radius: 20px;
   padding: 20px;
   margin-bottom: 30px;
-  background: linear-gradient(135deg, #FF6B9D 0%, #C8A2FF 100%);
-  border-radius: 15px;
-  color: white;
-  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.3);
 }
 
-.badge-icon {
-  font-size: 2em;
-}
-
-.badge-content {
-  text-align: left;
-}
-
-.badge-content strong {
-  display: block;
-  font-size: 1.2em;
-  margin-bottom: 5px;
-}
-
-.badge-content p {
-  margin: 0;
-  font-size: 0.9em;
-  opacity: 0.95;
+.test-info p {
+  color: #FF85A1;
+  font-size: 1em;
+  margin: 8px 0;
+  font-weight: 500;
 }
 
 .btn {
-  background: linear-gradient(135deg, #FF6B9D 0%, #FFD93D 100%);
+  background: linear-gradient(135deg, #FF9EBB 0%, #FFB3C6 100%);
   color: white;
   border: none;
-  padding: 15px 50px;
-  font-size: 1.2em;
+  padding: 18px 60px;
+  font-size: 1.3em;
   border-radius: 50px;
   cursor: pointer;
   transition: all 0.3s;
-  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+  box-shadow: 0 5px 20px rgba(255, 158, 187, 0.4);
   font-weight: 600;
   font-family: 'ZCOOL KuaiLe', 'Zhi Mang Xing', 'Long Cang', 'Ma Shan Zheng', 'Varela Round', 'Quicksand', 'Comfortaa', inherit;
 }
 
 .btn:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.6);
+  box-shadow: 0 8px 25px rgba(255, 158, 187, 0.6);
+  background: linear-gradient(135deg, #FF85A1 0%, #FF9EBB 100%);
+}
+
+.btn:active {
+  transform: scale(0.98);
 }
 
 @media (max-width: 600px) {
@@ -136,17 +142,17 @@
     font-size: 2em;
   }
 
+  .subtitle {
+    font-size: 1em;
+  }
+
   .features-grid {
     grid-template-columns: 1fr;
     gap: 10px;
   }
 
-  .original-badge {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .badge-content {
-    text-align: center;
+  .btn {
+    padding: 15px 40px;
+    font-size: 1.1em;
   }
 }
